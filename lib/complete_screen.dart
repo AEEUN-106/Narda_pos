@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'menu_left.dart';
 import 'model/order.dart';
 import 'model/store.dart';
+import 'package:narda_pos/orderHistoryDetail_screen.dart';
 class CompleteScreen extends StatefulWidget {
   const CompleteScreen({Key? key, required this.storeId}) : super(key: key);
   final String storeId;
@@ -219,7 +220,9 @@ class _CompleteScreenState extends State<CompleteScreen> {
               Text(location,
                   style: TextStyles.mainTextStyle) ,],
           ),
-        ),);
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>OrderHistoryDetailScreen(orderId: orders[index].orderId, storeId: widget.storeId)));
+            }),);
       },
       separatorBuilder: (BuildContext context, int index) {
         return Divider();

@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'menu_left.dart';
 import 'model/order.dart';
 import 'model/store.dart';
+import 'package:narda_pos/orderHistoryDetail_screen.dart';
 class DeliveryScreen extends StatefulWidget {
   const DeliveryScreen({Key? key, required this.storeId}) : super(key: key);
   final String storeId;
@@ -227,7 +228,9 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
           }, child: Text(orderState,
             style: TextStyles.clickButtonStyle,),
             style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.grey[600])),
-          ),
+          ),onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>OrderHistoryDetailScreen(orderId: orders[index].orderId, storeId: widget.storeId)));
+        }
         ),);
       },
       separatorBuilder: (BuildContext context, int index) {

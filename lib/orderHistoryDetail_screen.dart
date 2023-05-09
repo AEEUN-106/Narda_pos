@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'model/order.dart';
 import 'api/api.dart';
+import 'model/orderDetail.dart';
 
-
-
+Order order = new Order(1, 1, "", "pickupTime", "deliveryTime", 1, 10, "deliveryLocation", "deliveryRequest", "1", "1", 1, "orderInfo", "customerNum", 1);
+Duration? duration;
 class OrderHistoryDetailScreen extends StatefulWidget {
   const OrderHistoryDetailScreen(
   {Key? key, required this.orderId, required, required this.storeId})
@@ -25,8 +26,7 @@ class _OrderHistoryDetailScreenState extends State<OrderHistoryDetailScreen> {
     orderDetail();
     super.initState();
   }
-  late Order order = new Order(1, 1, "", "pickupTime", "deliveryTime", 1, 10, "deliveryLocation", "deliveryRequest", "1", "1", 1, "orderInfo", "customerNum", 1);
-  Duration? duration;
+
   orderDetail() async {
     try {
       var response = await http.post(Uri.parse(API.orderDetail), body: {
