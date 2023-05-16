@@ -4,4 +4,5 @@ class API{
   static const orderList = "$hostConnect/order_pos.php";
   static const orderSet = "$hostConnect/setOrder_pos.php";
   static const orderDetail = "$hostConnect/orderDetail.php";
+  static const predict = "$hostConnect/setPredictTime.php";
 }

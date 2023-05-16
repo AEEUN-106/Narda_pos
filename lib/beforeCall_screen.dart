@@ -9,7 +9,7 @@ import 'delivery_screen.dart';
 import 'menu_left.dart';
 import 'model/store.dart';
 import 'package:narda_pos/menu_left.dart'as menu;
-
+import 'package:fluttertoast/fluttertoast.dart';
 import 'model/order.dart';
 import 'dart:convert';
 import 'api/api.dart';
@@ -197,6 +197,49 @@ class _BeforeScreenState extends State<BeforeScreen> {
         {print("오더 리스트 불러오기 실패2 ${response.statusCode}");}
     }catch(e){print(e.toString());}
   }
+  void showToastMessage(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.grey,
+        fontSize: 15,
+        textColor: Colors.white,
+        toastLength: Toast.LENGTH_SHORT);
+  }
+
+  updatePredictTime(orderId, predictTime) async{
+    try{
+      var response = await http.post(
+          Uri.parse(API.predict),
+          body:{
+            'orderId' : orderId.toString(),
+            'predictTime' : predictTime.toString(),
+          }
+      );
+      print("여기까지옴");
+      if(response.statusCode == 200){
+        var responseBody = jsonDecode(response.body);
+        if(responseBody['success'] == true){
+          print("날짜 업데이트 완료");
+          Navigator.pop(context);
+        }
+        else{
+          print("비밀번호 변경 실패");
+        }
+      }
+    }catch(e){print(e.toString());}
+  }
+
+  void PredictTimeUpdate(int orderID,int predictAddTime, int index)
+  {
+    DateTime nowTime = DateTime.now();
+    DateTime predictTime = nowTime.add(new Duration(minutes: predictAddTime));
+    updatePredictTime(orderID,predictTime);
+
+    showToastMessage("호출이 완료되었습니다.");
+    setOrderState(orders[index].orderId, 1);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -213,6 +256,7 @@ class _BeforeScreenState extends State<BeforeScreen> {
         String location = "";
         String time="";
         int orderID;
+        late int predictAddTime;
         var valueFormat = NumberFormat('###,###,###,###');
         if(orders[index].payment == 0) payment = "결제완료";
         else if(orders[index].payment == 1) payment = "카드결제";
@@ -264,14 +308,53 @@ List<String> lodationTexts = orders[index].deliveryLocation.split(" ");
                   style: TextStyles.mainTextStyle) ,],
           ),
           trailing:  TextButton(onPressed: () async {
-setOrderState(orders[index].orderId, 1);
+
+print("호출하기 누름.");
+showDialog(context: context, builder: (BuildContext ctx){
+
+  return AlertDialog(
+    content:
+    Text("예상도착 시간을 선택해주세요",
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 20
+      ),
+      textAlign:TextAlign.center ,)
+    ,
+    actions: [
+      ElevatedButton(onPressed: (){
+        PredictTimeUpdate(orderID, 20,index);
+      }, child: Text("20분")),
+
+      ElevatedButton(onPressed: (){
+        PredictTimeUpdate(orderID, 40,index);
+      }, child: Text("40분")),
+
+
+      ElevatedButton(onPressed: (){
+        PredictTimeUpdate(orderID, 60,index);
+      }, child: Text("60분")),
+
+
+      ElevatedButton(onPressed: (){
+        PredictTimeUpdate(orderID, 70,index);
+      }, child: Text("70분")),
+    ],
+
+  );
+
+});
           }, child: Text("호출하기",
             style: TextStyles.clickButtonStyle,),
             style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue)),
           ),
         onTap: () {
+
+
          Navigator.push(context, MaterialPageRoute(builder: (context)=>OrderHistoryDetailScreen(orderId: orders[index].orderId, storeId: widget.storeId)));
-          },),);
+
+
+         },),);
       },
       separatorBuilder: (BuildContext context, int index) {
         return Divider();
