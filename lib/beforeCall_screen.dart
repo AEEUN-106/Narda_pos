@@ -220,20 +220,19 @@ class _BeforeScreenState extends State<BeforeScreen> {
       if(response.statusCode == 200){
         var responseBody = jsonDecode(response.body);
         if(responseBody['success'] == true){
-          print("날짜 업데이트 완료");
+          print("예상도착시간 업데이트 완료");
           Navigator.pop(context);
         }
         else{
-          print("비밀번호 변경 실패");
+          print("예상도착시간 업데이트 실패");
         }
       }
     }catch(e){print(e.toString());}
   }
 
-  void PredictTimeUpdate(int orderID,int predictAddTime, int index)
+  void PredictTimeUpdate(int orderID,int predictTime, int index)
   {
-    DateTime nowTime = DateTime.now();
-    DateTime predictTime = nowTime.add(new Duration(minutes: predictAddTime));
+
     updatePredictTime(orderID,predictTime);
 
     showToastMessage("호출이 완료되었습니다.");
