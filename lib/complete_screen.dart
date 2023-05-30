@@ -191,7 +191,7 @@ class _CompleteScreenState extends State<CompleteScreen> {
         menuNum = orders[index].deliveryLocation.split(",").length+1;
         List<String> lodationTexts = orders[index].deliveryLocation.split(" ");
         location +=lodationTexts[0];
-        location +=" " + lodationTexts[2];
+        location +=" " + lodationTexts[1];
         return Card(child: ListTile(
           leading: Text(time, style: TextStyles.timeTextStyle),
           title: Row(
