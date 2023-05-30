@@ -84,7 +84,7 @@ class _OrderHistoryDetailScreenState extends State<OrderHistoryDetailScreen> {
               style: const TextStyle(
                 fontFamily: 'Poppins',
                 color: Colors.white,
-                fontSize: 18,
+                fontSize: 25,
               ),
             ),
             actions: [],
@@ -108,7 +108,7 @@ class _OrderHistoryDetailScreenState extends State<OrderHistoryDetailScreen> {
                     children: [
                       Text(
                         deliveryState,
-                        style: TextStyle(fontSize: 20, color: Colors.red),
+                        style: TextStyle(fontSize: 30, color: Colors.red),
                       ),
                       SizedBox(height: 15),
                       Text("주문일시 : ${order?.orderTime}"),
@@ -154,20 +154,22 @@ class _OrderHistoryDetailScreenState extends State<OrderHistoryDetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text('배달정보', style: TextStyle(fontSize: 18)),
+                      Text('배달정보', style: TextStyle(fontSize: 25)),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 5),
-                            Text(order!.deliveryLocation),
+                            order!=null?
+                            Text(order.deliveryLocation):Text(""),
                             SizedBox(height: 5),
+                            order!=null?
                             Text(order!.customerNum.substring(0, 3) +
                                 '-' +
                                 order!.customerNum.substring(3, 7) +
                                 '-' +
-                                order!.customerNum.substring(7)),
+                                order!.customerNum.substring(7)):Text("010-1234-5678"),
                             SizedBox(height: 5),
                           ],
                         ),
@@ -185,14 +187,17 @@ class _OrderHistoryDetailScreenState extends State<OrderHistoryDetailScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Text('요청사항', style: TextStyle(fontSize: 18)),
+                        Text('요청사항', style: TextStyle(fontSize: 25)),
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(height: 5),
-                              Text(order!.deliveryRequest),
+                              order!=null?  (order.deliveryRequest!=""?  Text(order!.deliveryRequest):
+                                  Text("없음")) : Text("없음")
+
+                             ,
                               SizedBox(height: 5),
                             ],
                           ),
@@ -210,7 +215,7 @@ class _OrderHistoryDetailScreenState extends State<OrderHistoryDetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text('결제수단', style: TextStyle(fontSize: 18)),
+                      Text('결제수단', style: TextStyle(fontSize: 25)),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         child: Column(
@@ -236,7 +241,7 @@ class _OrderHistoryDetailScreenState extends State<OrderHistoryDetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text('결제금액', style: TextStyle(fontSize: 18)),
+                      Text('결제금액', style: TextStyle(fontSize: 25)),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         child: Column(
